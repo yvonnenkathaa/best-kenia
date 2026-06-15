@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Wild Safari Tours | Unforgettable Adventures</title>
+  <!-- Google Fonts & Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #fef9f0;
+      color: #2c2b28;
+      scroll-behavior: smooth;
+    }
+
+    /* Header & Nav */
+    header {
+      background: #0a2f1f;
+      padding: 1rem 5%;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #f7b32b;
+      letter-spacing: 1px;
+    }
+    .logo span {
+      color: #e6e6e6;
+      font-weight: 300;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: #fef9f0;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.2s;
+    }
+    .nav-links a:hover {
+      color: #f7b32b;
+    }
+    .menu-icon {
+      display: none;
+      font-size: 1.8rem;
+      color: white;
+      cursor: pointer;
+    }
+
+    /* Hero Section with video background */
+    .hero {
+      position: relative;
+      height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      overflow: hidden;
+    }
+    .hero-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -2;
+    }
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: -1;
+    }
+    .hero-content h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      animation: fadeUp 1s ease;
+    }
+    .hero-content p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      max-width: 700px;
+      animation: fadeUp 1.2s ease;
+    }
+    .btn {
+      background: #f7b32b;
+      color: #0a2f1f;
+      padding: 0.8rem 2rem;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: 0.3s;
+      display: inline-block;
+      border: none;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background: #ffcc5c;
+      transform: scale(1.02);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+
+    /* Sections */
+    section {
+      padding: 5rem 5%;
+    }
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      color: #0a2f1f;
+      font-weight: 700;
+    }
+    .section-title i {
+      color: #f7b32b;
+      margin-right: 12px;
+    }
+
+    /* Itinerary Cards */
+    .itinerary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+    .itin-card {
+      background: white;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+    .itin-card:hover {
+      transform: translateY(-6px);
+    }
+    .itin-img {
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+    }
+    .itin-card h3 {
+      padding: 1rem 1rem 0;
+      font-size: 1.5rem;
+    }
+    .itin-card p {
+      padding: 0.5rem 1rem;
+      color: #4a4a4a;
+    }
+    .itin-days {
+      padding: 0 1rem 1rem;
+      font-weight: 600;
+      color: #f7b32b;
+    }
+
+    /* Video Gallery */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    .video-card {
+      background: #fff;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+    .video-card video {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+    .video-card p {
+      padding: 1rem;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    /* Blog posts */
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+    .post-card {
+      background: white;
+      border-radius: 24px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+      transition: 0.2s;
+    }
+    .post-card i {
+      font-size: 2rem;
+      color: #f7b32b;
+      margin-bottom: 1rem;
+    }
+    .post-card h3 {
+      margin-bottom: 0.6rem;
+    }
+    .post-date {
+      font-size: 0.8rem;
+      color: #777;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    /* Share / CTA */
+    .share-section {
+      text-align: center;
+      background: #0a2f1f;
+      color: white;
+      border-radius: 48px;
+      margin: 2rem 5%;
+      padding: 3rem;
+    }
+    .share-buttons {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .social-btn {
+      background: #fef9f0;
+      color: #0a2f1f;
+      padding: 0.6rem 1.2rem;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+    .social-btn i {
+      margin-right: 8px;
+    }
+    .social-btn:hover {
+      background: #f7b32b;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background: #1e2a24;
+      color: #ccc;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        text-align: center;
+        padding: 1rem 0;
+      }
+      .nav-links.show {
+        display: flex;
+      }
+      .menu-icon {
+        display: block;
+      }
+      .hero-content h1 {
+        font-size: 2rem;
+      }
+      .section-title {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">Wild<span>Safari</span></div>
+    <div class="menu-icon" id="menuIcon">
+      <i class="fas fa-bars"></i>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#itineraries">Itineraries</a></li>
+      <li><a href="#videos">Videos</a></li>
+      <li><a href="#posts">Stories</a></li>
+      <li><a href="#share">Share</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- Hero Section with Safari Video (sample from pexels) -->
+<section id="home" class="hero">
+  <video autoplay muted loop playsinline class="hero-video">
+    <!-- replace with your own safari video url -->
+    <source src="https://cdn.pixabay.com/video/2023/06/20/168329-835939655_large.mp4" type="video/mp4">
+    Your browser does not support HTML5 video.
+  </video>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>Beyond the Horizon: African Safari</h1>
+    <p>Experience the wild like never before. We share raw moments, detailed itineraries & adventure videos.</p>
+    <a href="#itineraries" class="btn">Explore Tours <i class="fas fa-arrow-right"></i></a>
+  </div>
+</section>
+
+<!-- ITINERARIES -->
+<section id="itineraries">
+  <h2 class="section-title"><i class="fas fa-map-marked-alt"></i> Safari Itineraries</h2>
+  <div class="itinerary-grid">
+    <div class="itin-card">
+      <div class="itin-img" style="background-image: url('https://images.pexels.com/photos/2295744/pexels-photo-2295744.jpeg?auto=compress&cs=tinysrgb&w=600');"></div>
+      <h3>3-Day Big Five Express</h3>
+      <p>Masai Mara / Lake Nakuru • Game drives, night safari, cultural visit.</p>
+      <div class="itin-days">📅 Day 1: Nairobi → Masai Mara. Afternoon game drive.<br>📅 Day 2: Full day Mara with picnic lunch.<br>📅 Day 3: Morning drive → Departure.</div>
+    </div>
+    <div class="itin-card">
+      <div class="itin-img" style="background-image: url('https://images.pexels.com/photos/2575110/pexels-photo-2575110.jpeg?auto=compress&cs=tinysrgb&w=600');"></div>
+      <h3>7-Day Ultimate Safari</h3>
+      <p>Amboseli, Tsavo, Diani Beach. Elephants, lions & coastal relaxation.</p>
+      <div class="itin-days">📅 Day1-2: Amboseli (Kilimanjaro views)<br>📅 Day3-5: Tsavo East/West<br>📅 Day6-7: Diani & fly out.</div>
+    </div>
+    <div class="itin-card">
+      <div class="itin-img" style="background-image: url('https://images.pexels.com/photos/1350197/pexels-photo-1350197.jpeg?auto=compress&cs=tinysrgb&w=600');"></div>
+      <h3>5-Day Gorilla & Plains</h3>
+      <p>Uganda / Rwanda combo – Bwindi & Queen Elizabeth. Unique wildlife.</p>
+      <div class="itin-days">📅 Day1: Kigali → Bwindi<br>📅 Day2: Gorilla trek<br>📅 Day3-4: Queen Elizabeth tree-climbing lions<br>📅 Day5: Return</div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEOS SECTION (interactive / shareable) -->
+<section id="videos">
+  <h2 class="section-title"><i class="fas fa-video"></i> Safari Moments</h2>
+  <div class="video-grid">
+    <div class="video-card">
+      <video controls poster="https://images.pexels.com/photos/3952056/pexels-photo-3952056.jpeg?auto=compress&cs=tinysrgb&w=600">
+        <source src="https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4" type="video/mp4">
+      </video>
+      <p>🐘 Elephant herd crossing | Maasai Mara</p>
+    </div>
+    <div class="video-card">
+      <video controls>
+        <source src="https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4" type="video/mp4">
+      </video>
+      <p>🦁 Lion pride hunting sequence</p>
+    </div>
+    <div class="video-card">
+      <video controls>
+        <source src="https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4" type="video/mp4">
+      </video>
+      <p>🌅 Safari sunset & campsite vibes</p>
+    </div>
+  </div>
+  <div style="text-align: center; margin-top: 1.5rem;">
+    <a href="#" class="btn" style="background:#0a2f1f; color:white;">+ Upload Your Safari Video</a>
+  </div>
+</section>
+
+<!-- BLOG POSTS SECTION (stories) -->
+<section id="posts">
+  <h2 class="section-title"><i class="fas fa-feather-alt"></i> Safari Stories & Posts</h2>
+  <div class="posts-grid">
+    <div class="post-card">
+      <i class="fas fa-tree"></i>
+      <h3>The Great Migration: Timing & spots</h3>
+      <span class="post-date">April 12, 2025</span>
+      <p>Witnessing 1.5M wildebeest cross the Mara River – best months July–Oct.</p>
+      <a href="#" style="color:#f7b32b; font-weight:600;">Read more →</a>
+    </div>
+    <div class="post-card">
+      <i class="fas fa-camera-retro"></i>
+      <h3>Photography tips for low-light safaris</h3>
+      <span class="post-date">March 28, 2025</span>
+      <p>Best lenses, camera settings for dawn/dusk game drives.</p>
+      <a href="#" style="color:#f7b32b; font-weight:600;">Read more →</a>
+    </div>
+    <div class="post-card">
+      <i class="fas fa-hiking"></i>
+      <h3>Walking safari: what to pack</h3>
+      <span class="post-date">March 5, 2025</span>
+      <p>Essential gear, safety briefings, and spotting tracks with rangers.</p>
+      <a href="#" style="color:#f7b32b; font-weight:600;">Read more →</a>
+    </div>
+  </div>
+</section>
+
+<!-- SHARE / SOCIAL SECTION -->
+<section id="share">
+  <div class="share-section">
+    <h2><i class="fas fa-share-alt"></i> Share Your Safari Moments</h2>
+    <p>Post your videos, photos, or itinerary feedback. Let’s inspire more adventurers!</p>
+    <div class="share-buttons">
+      <a href="#" class="social-btn"><i class="fab fa-instagram"></i> Instagram</a>
+      <a href="#" class="social-btn"><i class="fab fa-youtube"></i> YouTube</a>
+      <a href="#" class="social-btn"><i class="fab fa-facebook"></i> Facebook</a>
+      <a href="#" class="social-btn"><i class="fas fa-envelope"></i> Submit Your Story</a>
+    </div>
+    <div style="margin-top: 2rem;">
+      <input type="text" placeholder="Paste video link or write a note..." style="padding: 12px; width: 70%; max-width: 400px; border-radius: 40px; border: none; outline: none;">
+      <button class="btn" style="margin-left: 8px;">Share</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Wild Safari Tours — Designed for adventure. All itineraries are customizable.</p>
+  <p><i class="fas fa-phone-alt"></i> +254 700 SAFARI &nbsp;|&nbsp; <i class="fas fa-envelope"></i> hello@wildsafari.com</p>
+</footer>
+
+<script>
+  // Mobile menu toggle
+  const menuIcon = document.getElementById('menuIcon');
+  const navLinks = document.getElementById('navLinks');
+  menuIcon.addEventListener('click', () => {
+    navLinks.classList.toggle('show');
+  });
+
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const targetId = this.getAttribute('href');
+      if (targetId === "#") return;
+      const target = document.querySelector(targetId);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth' });
+        if (navLinks.classList.contains('show')) navLinks.classList.remove('show');
+      }
+    });
+  });
+</script>
+</body>
+</html>
