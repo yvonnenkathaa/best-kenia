@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tour Photo Gallery</title>
+    <style>
+        /* CSS Variables for global thematic consistency */
+        :root {
+            --primary-green: #25D366;
+            --dark-bg: #111111;
+            --text-light: #ffffff;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-blur: blur(10px);
+        }
+
+        /* Base Reset & Styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            min-height: 100vh;
+            /* Optional: If you want to use your background image across pages, uncomment below */
+            /* 
+            background-image: url('your-background-image.jpg');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+            background-attachment: fixed;
+            */
+        }
+
+        /* Sticky Glassmorphic Navigation Bar */
+        .nav-bar {
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            padding: 15px 30px;
+            box-sizing: border-box;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+        }
+
+        .back-home-btn {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.2s ease;
+        }
+
+        .back-home-btn:hover {
+            color: var(--primary-green);
+        }
+
+        /* Core Gallery Layout Wrapper */
+        .gallery-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            box-sizing: border-box;
+        }
+
+        /* Typography Header Sections */
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .gallery-header h1 {
+            font-size: 2.5rem;
+            margin: 0 0 12px 0;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+        }
+
+        .gallery-header p {
+            color: #b3b3b3;
+            font-size: 1.1rem;
+            margin: 0;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        /* CSS Grid Framework */
+        .gallery-grid {
+            display: grid;
+            /* Dynamically sizes columns; drops cleanly to 1 column on mobile devices */
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        /* Interactive Photo Card Elements */
+        .gallery-item {
+            position: relative;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
+            /* Standardizes aspect ratio to prevent jagged layouts */
+            aspect-ratio: 4 / 3; 
+            cursor: pointer;
+        }
+
+        /* Desktop Focus State Interaction */
+        .gallery-item:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Automated Image Optimization & Fit */
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Uniformly scales and crops images of any proportions */
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05); /* Soft zoom movement on image hover */
+        }
+
+        /* Sleek Gradient Caption Overlay */
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+            padding: 25px 20px 20px 20px;
+            box-sizing: border-box;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .gallery-caption-title {
+            color: #ffffff;
+            margin: 0 0 4px 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .gallery-caption-location {
+            color: var(--primary-green);
+            margin: 0;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 600px) {
+            .gallery-header h1 {
+                font-size: 2rem;
+            }
+            .gallery-header p {
+                font-size: 0.95rem;
+            }
+            .gallery-grid {
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Back to Main Page Link Elements -->
+    <nav class="nav-bar">
+        <a href="index.html" class="back-home-btn">
+            <!-- Universal Unicode Left Arrow -->
+            <span>&#8592;</span> Back to Tours
+        </a>
+    </nav>
+
+    <!-- Content Layout Block -->
+    <main class="gallery-wrapper">
+        <div class="gallery-header">
+            <h1>Our Trip Gallery</h1>
+            <p>Real memories captured on our recent adventures</p>
+        </div>
+
+        <div class="gallery-grid">
+            
+            <!-- Gallery Item 1 -->
+            <div class="gallery-item">
+                <img src="photos/WhatsApp Image 2026-07-07 at 09.43.33.jpeg" alt="Scenic beach sunset view">
+                <div class="gallery-overlay">
+                    <p class="gallery-caption-title">Sunset Beach Stroll</p>
+                    <p class="gallery-caption-location">Bali, Indonesia</p>
+                </div>
+            </div>
+
+            <!-- Gallery Item 2 -->
+            <div class="gallery-item">
+                <img src="photos/image1.jpeg" alt="High mountain peaks with snow">
+                <div class="gallery-overlay">
+                    <p class="gallery-caption-title">Alpine Trail Expedition</p>
+                    <p class="gallery-caption-location">Swiss Alps</p>
+                </div>
+            </div>
+
+            <!-- Gallery Item 3 -->
+            <div class="gallery-item">
+                <img src="photos/image2.jpeg" alt="Historic bamboo pathway walk">
+                <div class="gallery-overlay">
+                    <p class="gallery-caption-title">Bamboo Forest Sanctuary</p>
+                    <p class="gallery-caption-location">Kyoto, Japan</p>
+                </div>
+            </div>
+
+            <!-- Gallery Item 4 -->
+            <div class="gallery-item">
+                <img src="photos/image3.jpeg" alt="Vehicle driving through canyon landscape">
+                <div class="gallery-overlay">
+                    <p class="gallery-caption-title">Desert Canyon Roadtrip</p>
+                    <p class="gallery-caption-location">Arizona, USA</p>
+                </div>
+            </div>
+
+            <!-- Gallery Item 5 -->
+            <div class="gallery-item">
+                <img src="photos/image4.jpeg" alt="Clear crystal tropical ocean water">
+                <div class="gallery-overlay">
+                    <p class="gallery-caption-title">Lagoon Snorkeling Experience</p>
+                    <p class="gallery-caption-location">Phuket, Thailand</p>
+                </div>
+            </div>
+
+            <!-- Gallery Item 6 -->
+            <div class="gallery-item">
+                <img src="photos/image5.jpeg" alt="Wooden boat traveling down a calm river">
+                <div class="gallery-overlay">
+                    <p class="gallery-caption-title">Morning River Cruise</p>
+                    <p class="gallery-caption-location">Venice, Italy</p>
+                </div>
+            </div>
+
+            <div class="gallery-item">
+                <img src="photos/image6.jpeg" alt="Wooden boat traveling down a calm river">
+                <div class="gallery-overlay">
+                    <p class="gallery-caption-title">Morning River Cruise</p>
+                    <p class="gallery-caption-location">Venice, Italy</p>
+                </div>
+            </div>
+
+                       <div class="gallery-item">
+                <img src="photos/image7.jpeg" alt="Wooden boat traveling down a calm river">
+                <div class="gallery-overlay">
+                    <p class="gallery-caption-title">Morning River Cruise</p>
+                    <p class="gallery-caption-location">Venice, Italy</p>
+                </div>
+            </div>
+
+                       <div class="gallery-item">
+                <img src="photos/image8.jpeg" alt="Wooden boat traveling down a calm river">
+                <div class="gallery-overlay">
+                    <p class="gallery-caption-title">Morning River Cruise</p>
+                    <p class="gallery-caption-location">Venice, Italy</p>
+                </div>
+            </div>
+
+                       <div class="gallery-item">
+                <img src="photos/image9.jpeg" alt="Wooden boat traveling down a calm river">
+                <div class="gallery-overlay">
+                    <p class="gallery-caption-title">Morning River Cruise</p>
+                    <p class="gallery-caption-location">Venice, Italy</p>
+                </div>
+            </div>
+
+                       <div class="gallery-item">
+                <img src="photos/image10.jpeg" alt="Wooden boat traveling down a calm river">
+                <div class="gallery-overlay">
+                    <p class="gallery-caption-title">Morning River Cruise</p>
+                    <p class="gallery-caption-location">Venice, Italy</p>
+                </div>
+            </div>
+
+                       <div class="gallery-item">
+                <img src="photos/image11.jpeg" alt="Wooden boat traveling down a calm river">
+                <div class="gallery-overlay">
+                    <p class="gallery-caption-title">Morning River Cruise</p>
+                    <p class="gallery-caption-location">Venice, Italy</p>
+                </div>
+            </div>
+
+                       <div class="gallery-item">
+                <img src="photos/image12.jpeg" alt="Wooden boat traveling down a calm river">
+                <div class="gallery-overlay">
+                    <p class="gallery-caption-title">Morning River Cruise</p>
+                    <p class="gallery-caption-location">Venice, Italy</p>
+                </div>
+            </div>
+
+                       <div class="gallery-item">
+                <img src="photos/image13.jpeg" alt="Wooden boat traveling down a calm river">
+                <div class="gallery-overlay">
+                    <p class="gallery-caption-title">Morning River Cruise</p>
+                    <p class="gallery-caption-location">Venice, Italy</p>
+                </div>
+            </div>
+
+                       <div class="gallery-item">
+                <img src="photos/image14.jpeg" alt="Wooden boat traveling down a calm river">
+                <div class="gallery-overlay">
+                    <p class="gallery-caption-title">Morning River Cruise</p>
+                    <p class="gallery-caption-location">Venice, Italy</p>
+                </div>
+            </div>
+
+                       <div class="gallery-item">
+                <img src="photos/image15.jpeg" alt="Wooden boat traveling down a calm river">
+                <div class="gallery-overlay">
+                    <p class="gallery-caption-title">Morning River Cruise</p>
+                    <p class="gallery-caption-location">Venice, Italy</p>
+                </div>
+            </div>
+
+                       <div class="gallery-item">
+                <img src="photos/image16.jpeg" alt="Wooden boat traveling down a calm river">
+                <div class="gallery-overlay">
+                    <p class="gallery-caption-title">Morning River Cruise</p>
+                    <p class="gallery-caption-location">Venice, Italy</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>

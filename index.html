@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Destinations</title>
+    
+    <style>
+        :root {
+            --primary-color: #25D366; /* WhatsApp Green */
+            --dark-color: #333;
+            --light-bg: #f4f4f9;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Video Background Container */
+        .video-background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        #bg-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Semi-transparent dark overlay over the video */
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.4); 
+            z-index: -1;
+        }
+
+        /* Main Content Container */
+        .content-wrapper {
+            padding: 40px 20px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Grid Layout for Tour Cards */
+        .tour-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Semi-transparent Tour Cards with Glassmorphism */
+        .tour-card {
+            /* Changed background to 85% opacity */
+            background: rgba(255, 255, 255, 0.85);
+            /* Adds a blur effect to the background video behind the card */
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px); 
+            
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+        }
+
+        /* Slightly increases opacity on hover for a dynamic interactive feel */
+        .tour-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .tour-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            /* Keeps the image clear, but you can add opacity here if desired */
+            opacity: 0.95; 
+        }
+
+        .tour-info {
+            padding: 24px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .tour-title {
+            margin: 0 0 10px 0;
+            font-size: 1.4rem;
+            color: var(--dark-color);
+        }
+
+        .tour-description {
+            color: #444; /* Darkened slightly to preserve contrast on transparent bg */
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .tour-price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--dark-color);
+            margin-bottom: 15px;
+        }
+
+        /* Booking Button */
+        .book-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .book-btn:hover {
+            background-color: #1ebd59;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="video-background-container">
+        <video id="bg-video" autoplay muted loop playsinline>
+            <source src="videos/WhatsApp Video 2026-07-11 at 21.34.11.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <div class="video-overlay"></div>
+
+    <div class="content-wrapper">
+        <h1>Find Your Next Adventure</h1>
+
+        <div class="tour-container">
+            <div class="tour-card">
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500" alt="Bali" class="tour-image">
+                <div class="tour-info">
+                    <div>
+                        <h2 class="tour-title">Maasai Mara</h2>
+                        <p class="tour-description">Experience paradise with crystal clear waters, vibrant coral reefs, and pristine white sands.</p>
+                    </div>
+                    <div>
+                        <button class="book-btn" onclick="sendWhatsAppBooking('Bali Beach Getaway')">Book via WhatsApp</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tour-card">
+                <img src="https://images.unsplash.com/photo-1542401886-65d6c61db217?w=500" alt="Swiss Alps" class="tour-image">
+                <div class="tour-info">
+                    <div>
+                        <h2 class="tour-title">Amboseli</h2>
+                        <p class="tour-description">Hit the slopes or hike through stunning mountain trails with breathtaking alpine vistas.</p>
+                    </div>
+                    <div>
+                        <button class="book-btn" onclick="sendWhatsAppBooking('Swiss Alps Adventure')">Book via WhatsApp</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tour-card">
+                <img src="https://images.unsplash.com/photo-1542401886-65d6c61db217?w=500" alt="Swiss Alps" class="tour-image">
+                <div class="tour-info">
+                    <div>
+                        <h2 class="tour-title">Samburu</h2>
+                        <p class="tour-description">Hit the slopes or hike through stunning mountain trails with breathtaking alpine vistas.</p>
+                    </div>
+                    <div>
+                        <button class="book-btn" onclick="sendWhatsAppBooking('Swiss Alps Adventure')">Book via WhatsApp</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tour-card">
+                <img src="https://images.unsplash.com/photo-1542401886-65d6c61db217?w=500" alt="Swiss Alps" class="tour-image">
+                <div class="tour-info">
+                    <div>
+                        <h2 class="tour-title">Tsavo</h2>
+                        <p class="tour-description">Hit the slopes or hike through stunning mountain trails with breathtaking alpine vistas.</p>
+                    </div>
+                    <div>
+                        <button class="book-btn" onclick="sendWhatsAppBooking('Swiss Alps Adventure')">Book via WhatsApp</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tour-card">
+                <img src="https://images.unsplash.com/photo-1542401886-65d6c61db217?w=500" alt="Swiss Alps" class="tour-image">
+                <div class="tour-info">
+                    <div>
+                        <h2 class="tour-title">Nyali</h2>
+                        <p class="tour-description">Hit the slopes or hike through stunning mountain trails with breathtaking alpine vistas.</p>
+                    </div>
+                    <div>
+                        <button class="book-btn" onclick="sendWhatsAppBooking('Swiss Alps Adventure')">Book via WhatsApp</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tour-card">
+                <img src="https://images.unsplash.com/photo-1542401886-65d6c61db217?w=500" alt="Swiss Alps" class="tour-image">
+                <div class="tour-info">
+                    <div>
+                        <h2 class="tour-title">Mt. Kenya</h2>
+                        <p class="tour-description">Hit the slopes or hike through stunning mountain trails with breathtaking alpine vistas.</p>
+                    </div>
+                    <div>
+                        <button class="book-btn" onclick="sendWhatsAppBooking('Swiss Alps Adventure')">Book via WhatsApp</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tour-card">
+                <img src="https://images.unsplash.com/photo-1542401886-65d6c61db217?w=500" alt="Swiss Alps" class="tour-image">
+                <div class="tour-info">
+                    <div>
+                        <h2 class="tour-title">Mt. Kilimanjaro</h2>
+                        <p class="tour-description">Hit the slopes or hike through stunning mountain trails with breathtaking alpine vistas.</p>
+                    </div>
+                    <div>
+                        <button class="book-btn" onclick="sendWhatsAppBooking('Swiss Alps Adventure')">Book via WhatsApp</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tour-card">
+                <img src="https://images.unsplash.com/photo-1542401886-65d6c61db217?w=500" alt="Swiss Alps" class="tour-image">
+                <div class="tour-info">
+                    <div>
+                        <h2 class="tour-title">Mt Elgon</h2>
+                        <p class="tour-description">Hit the slopes or hike through stunning mountain trails with breathtaking alpine vistas.</p>
+                    </div>
+                    <div>
+                        <button class="book-btn" onclick="sendWhatsAppBooking('Swiss Alps Adventure')">Book via WhatsApp</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tour-card">
+                <img src="https://images.unsplash.com/photo-1542401886-65d6c61db217?w=500" alt="Swiss Alps" class="tour-image">
+                <div class="tour-info">
+                    <div>
+                        <h2 class="tour-title">Meru</h2>
+                        <p class="tour-description">Hit the slopes or hike through stunning mountain trails with breathtaking alpine vistas.</p>
+                    </div>
+                    <div>
+                        <button class="book-btn" onclick="sendWhatsAppBooking('Swiss Alps Adventure')">Book via WhatsApp</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tour-card">
+                <img src="https://images.unsplash.com/photo-1542401886-65d6c61db217?w=500" alt="Swiss Alps" class="tour-image">
+                <div class="tour-info">
+                    <div>
+                        <h2 class="tour-title">Mombasa</h2>
+                        <p class="tour-description">Hit the slopes or hike through stunning mountain trails with breathtaking alpine vistas.</p>
+                    </div>
+                    <div>
+                        <button class="book-btn" onclick="sendWhatsAppBooking('Swiss Alps Adventure')">Book via WhatsApp</button>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="tour-card">
+                <a href="gallery.html" target="_blank">
+                    <img src="https://images.unsplash.com/photo-1542401886-65d6c61db217?w=500" alt="Swiss Alps" class="tour-image">
+                
+                <div class="tour-info">
+                    <div>
+                        <h2 class="tour-title">What to Expect</h2>
+                        <p class="tour-description">Our unforgettable moments.</p>
+                    </div>
+                    </a>
+                    <div>
+                        <button class="book-btn" onclick="sendWhatsAppBooking('Swiss Alps Adventure')">Book via WhatsApp</button>
+                    </div>
+                </div>
+            </div>
+            
+
+
+
+        </div>
+    </div>
+
+    <script>
+        function sendWhatsAppBooking(tourName) {
+            const phoneNumber = "1234567890"; 
+            const baseMessage = `Hello! I would like to book the following tour package: *${tourName}*. Please provide me with more details and availability.`;
+            const encodedMessage = encodeURIComponent(baseMessage);
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+            window.open(whatsappUrl, '_blank');
+        }
+    </script>
+
+</body>
+</html>
